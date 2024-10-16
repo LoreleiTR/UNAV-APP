@@ -1,32 +1,134 @@
-import kivy
-from kivy.app import App 
-from kivy.uix.label import Label 
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
+from kivy.app import App
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.core.window import Window
 
-class MyGridLayout(GridLayout):
-    def __init__(self, **kwargs):
-        super(MyGridLayout, self).__init__(**kwargs)
+Window.size = (360, 640)
 
-        self.cols = 2
 
-        self.add_widget(Label(text="Name: "))
-        self.name = TextInput(multiline=False)
-        self.add_widget(self.name)
+# Define the KV layout as a string
+kv = '''
+WindowManager:
+    MainWindow:
+    SecondWindow:
+    ThirdWindow:
+    FourthWindow:
+    FifthWindow:
 
-        self.add_widget(Label(text="Fav Pet: "))
-        self.pet = TextInput(multiline=False) #FOR TYPING TEXT 
-        self.add_widget(self.pet)
+<MainWindow>:
+    name: "main"
 
-        self.add_widget(Label(text="Music: "))
-        self.music = TextInput(multiline=False)
-        self.add_widget(self.music)
+    Button:
+        text: "Profile"
+        size_hint: 0.25, 0.1
+        pos_hint: {"x": 0, "y": 0}
+        on_release:
+            app.root.current = "second"
+            root.manager.transition.direction = "right"
 
-class MyApp(App):
+    Button:
+        text: "Sched"
+        size_hint: 0.25, 0.1
+        pos_hint: {"x": 0.25, "y": 0}
+        on_release:
+            app.root.current = "third"
+            root.manager.transition.direction = "right"
+
+    Button:
+        text: "Contact"
+        size_hint: 0.25, 0.1
+        pos_hint: {"x": 0.5, "y": 0}
+        on_release:
+            app.root.current = "fourth"
+            root.manager.transition.direction = "right"
+
+    Button:
+        text: "Info"
+        size_hint: 0.25, 0.1
+        pos_hint: {"x": 0.75, "y": 0}
+        on_release:
+            app.root.current = "five"
+            root.manager.transition.direction = "right"
+            
+
+
+
+
+<SecondWindow>:
+    name: "second"
+
+    Button:
+        text: "Go Back"
+        size_hint: 0.25, 0.1
+        pos_hint: {"x": 0, "y": 0}
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "right"
+
+
+<ThirdWindow>:
+    name: "third"
+
+    Button:
+        text: "Go Back"
+        size_hint: 0.25, 0.1
+        pos_hint: {"x": 0, "y": 0}
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "right"
+
+<FourthWindow>:
+    name: "fourth"
+
+    Button:
+        text: "Go Back"
+        size_hint: 0.25, 0.1
+        pos_hint: {"x": 0, "y": 0}
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "right"
+
+<FifthWindow>:
+    name: "five"
+
+    Button:
+        text: "Go Back"
+        size_hint: 0.25, 0.1
+        pos_hint: {"x": 0, "y": 0}
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "right"
+
+            
+
+
+'''
+
+# Define the Screen classes
+class MainWindow(Screen):
+    pass
+
+
+class SecondWindow(Screen):
+    pass
+
+class ThirdWindow(Screen):
+    pass
+
+class FourthWindow(Screen):
+    pass
+
+
+class FifthWindow(Screen):
+    pass
+
+
+class WindowManager(ScreenManager):
+    pass
+# Define the main app
+class MyMainApp(App):
     def build(self):
-        return MyGridLayout()
+        return Builder.load_string(kv)  # Load the KV layout from the string
 
-if __name__ == '__main__':
-    MyApp().run()
+if __name__ == "__main__":
+    MyMainApp().run()

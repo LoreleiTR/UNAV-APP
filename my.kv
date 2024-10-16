@@ -1,0 +1,20 @@
+ScreenManager:
+    MainScreen:
+    SecondScreen:
+
+<MainScreen>:
+    name: "main"
+    Button:
+        text: "Submit"
+        on_release:
+            app.root.current = "second" if passw.text == "tim" else "main"
+            root.manager.transition.direction = 'left'
+
+    TextInput:
+        id: passw
+        password: True
+
+<SecondScreen>:
+    name: "second"
+    Label:
+        text: "Welcome to the second screen!"
