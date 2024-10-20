@@ -3,6 +3,7 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.metrics import dp
+from kivy.uix.image import Image
 
 # Map 
 from kivy.uix.boxlayout import BoxLayout
@@ -37,40 +38,53 @@ WindowManager:
 
         # Floating buttons aligned at the bottom of the screen
         Button:
-            text: "Profile"
+            id: "Profile"
             size_hint: None, None
             size: dp(90), dp(60)
             pos_hint: {"x": 0, "y": 0}  # Aligned at the bottom-left
             on_release:
                 app.root.current = "second"
                 root.manager.transition.direction = "right"
+            # Add an image as the button's background
+            background_normal: 'buttons\profilebtn.png'  # Path to your image
+            background_down: 'buttons\profilebtn.png'  # Path for pressed state (optional)
+        
 
         Button:
-            text: "Sched"
+            id: "Sched"
             size_hint: None, None
             size: dp(90), dp(60)
             pos_hint: {"x": 0.25, "y": 0}  # Positioned next to Profile
             on_release:
                 app.root.current = "third"
                 root.manager.transition.direction = "right"
+            # Add an image as the button's background
+            background_normal: 'buttons\datebtn.png'  # Path to your image
+            background_down: 'buttons\datebtn.png'  # Path for pressed state (optional)
 
         Button:
-            text: "Contact"
+            id: "Contact"
             size_hint: None, None
             size: dp(90), dp(60)
             pos_hint: {"x": 0.5, "y": 0}  # Positioned next to Sched
             on_release:
                 app.root.current = "fourth"
                 root.manager.transition.direction = "right"
+            # Add an image as the button's background
+            background_normal: 'buttons\callbtn.png'  # Path to your image
+            background_down: 'buttons\callbtn.png'  # Path for pressed state (optional)
+
 
         Button:
-            text: "Info"
+            id: "Info"
             size_hint: None, None
             size: dp(90), dp(60)
             pos_hint: {"x": 0.75, "y": 0}  # Positioned next to Contact
             on_release:
                 app.root.current = "five"
                 root.manager.transition.direction = "right"
+            background_normal: 'buttons\infobtn.png'  # Path to your image
+            background_down: 'buttons\infobtn.png'  # Path for pressed state (optional)
 
 
 <SecondWindow>:
