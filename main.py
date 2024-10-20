@@ -4,6 +4,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.metrics import dp
 from kivy.uix.image import Image
+import webbrowser
 
 # Map 
 from kivy.uix.boxlayout import BoxLayout
@@ -44,7 +45,7 @@ WindowManager:
             pos_hint: {"x": 0, "y": 0}  # Aligned at the bottom-left
             on_release:
                 app.root.current = "second"
-                root.manager.transition.direction = "right"
+                root.manager.transition.direction = "up"
             # Add an image as the button's background
             background_normal: 'buttons\profilebtn.png'  # Path to your image
             background_down: 'buttons\profilebtn.png'  # Path for pressed state (optional)
@@ -57,7 +58,7 @@ WindowManager:
             pos_hint: {"x": 0.25, "y": 0}  # Positioned next to Profile
             on_release:
                 app.root.current = "third"
-                root.manager.transition.direction = "right"
+                root.manager.transition.direction = "up"
             # Add an image as the button's background
             background_normal: 'buttons\datebtn.png'  # Path to your image
             background_down: 'buttons\datebtn.png'  # Path for pressed state (optional)
@@ -69,7 +70,7 @@ WindowManager:
             pos_hint: {"x": 0.5, "y": 0}  # Positioned next to Sched
             on_release:
                 app.root.current = "fourth"
-                root.manager.transition.direction = "right"
+                root.manager.transition.direction = "up"
             # Add an image as the button's background
             background_normal: 'buttons\callbtn.png'  # Path to your image
             background_down: 'buttons\callbtn.png'  # Path for pressed state (optional)
@@ -82,7 +83,7 @@ WindowManager:
             pos_hint: {"x": 0.75, "y": 0}  # Positioned next to Contact
             on_release:
                 app.root.current = "five"
-                root.manager.transition.direction = "right"
+                root.manager.transition.direction = "up"
             background_normal: 'buttons\infobtn.png'  # Path to your image
             background_down: 'buttons\infobtn.png'  # Path for pressed state (optional)
 
@@ -124,13 +125,27 @@ WindowManager:
 <FifthWindow>:
     name: "five"
 
+    FloatLayout:
+    # Fullscreen background image (acts as wallpaper)
+    Image:
+        source: 'bg\Abtinfo.png'
+        allow_stretch: True  # Allow the image to stretch to fill the screen
+        keep_ratio: False  # Disable keeping the aspect ratio, so it covers the screen fully
+        size_hint: (1, 1)  # Make the image fill the whole screen
+        pos_hint: {"x": 0, "y": 0}  # Align to the bottom left
+
+
     Button:
-        text: "Go Back"
-        size_hint: 0.25, 0.1
-        pos_hint: {"x": 0, "y": 0}
+        id:back
+        size_hint: None, None
+        size: dp(90), dp(60)
+        pos_hint: {"x": 0.40, "y": 0.06}
         on_release:
             app.root.current = "main"
-            root.manager.transition.direction = "right"
+            root.manager.transition.direction = "down"
+        background_normal: 'buttons/bckbtn.png'  # Path to your image
+        background_down: 'buttons/bckbtn.png'  # Path for pressed state (optional)
+    
 '''
 
 # Define the Screen classes
