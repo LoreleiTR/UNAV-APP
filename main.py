@@ -114,13 +114,56 @@ WindowManager:
 <FourthWindow>:
     name: "fourth"
 
+    FloatLayout:
+    # Fullscreen background image (acts as wallpaper)
+    Image:
+        source: 'bg\contbg.png'
+        allow_stretch: True  # Allow the image to stretch to fill the screen
+        keep_ratio: False  # Disable keeping the aspect ratio, so it covers the screen fully
+        size_hint: (1, 1)  # Make the image fill the whole screen
+        pos_hint: {"x": 0, "y": 0}  # Align to the bottom left
+
     Button:
-        text: "Go Back"
-        size_hint: 0.25, 0.1
-        pos_hint: {"x": 0, "y": 0}
+        id:back
+        size_hint: None, None
+        size: dp(90), dp(60)
+        pos_hint: {"x":  0.375, "y": 0.06}
         on_release:
             app.root.current = "main"
-            root.manager.transition.direction = "right"
+            root.manager.transition.direction = "down"
+        background_normal: 'buttons/bckbtn.png'  # Path to your image
+        background_down: 'buttons/bckbtn.png'  # Path for pressed state (optional)
+        
+    Button:
+        
+        size_hint: None, None
+        size: dp(90), dp(60)
+        pos_hint: {"x": 0.375, "y": 0.72}
+        on_release: app.open_website('https://batstateu.edu.ph/?fbclid=IwY2xjawGDScZleHRuA2FlbQIxMAABHStZ27tFxqOOwy0CACeJt8NRt1LKx5NyGZBbDR8bfwEfVh0Rlqy5xISIMQ_aem_TBzMYBpi8PKAErWOlBWgkA')
+        background_normal: 'buttons/webbtn.png'  
+        background_down: 'buttons/webbtn.png'  
+
+
+
+    Button:
+        
+        size_hint: None, None
+        size: dp(90), dp(60)
+        pos_hint: {"x": 0.375, "y": 0.53}
+        on_release: app.open_website('https://www.facebook.com/BatStateUTheNEU')
+        background_normal: 'buttons/fbbtn.png'  
+        background_down: 'buttons/fbbtn.png'  
+
+    Button:
+        
+        size_hint: None, None
+        size: dp(90), dp(60)
+        pos_hint: {"x": 0.375, "y": 0.32}
+        on_release: app.open_website('https://www.youtube.com/@batstateutheneu')
+        background_normal: 'buttons/ytbtn.png'
+        background_down: 'buttons/ytbtn.png'  
+
+    
 
 <FifthWindow>:
     name: "five"
@@ -139,7 +182,7 @@ WindowManager:
         id:back
         size_hint: None, None
         size: dp(90), dp(60)
-        pos_hint: {"x": 0.40, "y": 0.06}
+        pos_hint: {"x":  0.375, "y": 0.06}
         on_release:
             app.root.current = "main"
             root.manager.transition.direction = "down"
@@ -172,6 +215,11 @@ class WindowManager(ScreenManager):
 class MyMainApp(App):
     def build(self):
         return Builder.load_string(kv)  # Load the KV layout from the string
+    
+
+    def open_website(self, url):
+        webbrowser.open(url)
+
 
 if __name__ == "__main__":
     MyMainApp().run()
