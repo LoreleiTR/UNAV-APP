@@ -337,7 +337,7 @@ def main(win, width):
 
     pygame.quit()
 
-    image_grid = process_image_to_grid('C:\\Users\\Lorelei\\Downloads\\deg3.png', ROWS)
+    image_grid = process_image_to_grid('map/map.png', ROWS)
 
 # Run the main function
 
