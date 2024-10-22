@@ -1,2 +1,2 @@
 1,1,MON 7-1PM CLASS,pfp/leimail.png,Lorelei T. Robles,4103,123456,https://classroom.google.com/h
-LOREMAIL,455,MON 5-6AM CLASS,loremail.png,Mini Col,1203,789101,https://bsu-loremail.edu.ph
+LOREMAIL,455,MON 5-6AM CLASS,pfp/leimail.png,Mini Col,1203,789101,https://bsu-loremail.edu.ph

@@ -128,46 +128,48 @@ WindowManager:
         
         Label:
             id: name
-            text: "NAME: [u]{}[/u]".format(app.user_data['name'])
+            text: "NAME: [u]{}[/u]"
             markup: True
             font_size: 18
             size_hint: None, None
             size: 200, 40
             pos_hint: {"center_x": 0.5, "center_y": 0.54}
-            halign: 'center'
+            halign: 'left'
             valign: 'middle'
             text_size: self.size
 
         Label:
             id: section
-            text: "SECTION: [u]{}[/u]".format(app.user_data['section'])
+            text: "SECTION: [u]{}[/u]"
             markup: True
             font_size: 18
             size_hint: None, None
             size: 200, 40
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            halign: 'center'
+            halign: 'left'
             valign: 'middle'
             text_size: self.size
 
         Label:
             id: sr_number
-            text: "SR Number: [u]{}[/u]".format(app.user_data['sr_number'])
+            text: "SR Number: [u]{}[/u]"
             markup: True
             font_size: 18
             size_hint: None, None
             size: 200, 40
             pos_hint: {"center_x": 0.5, "center_y": 0.46}
-            halign: 'center'
+            halign: 'left'
             valign: 'middle'
             text_size: self.size
 
         Button:
-            text: "Go to BSU Account"
+            id: "Go to BSU Account"
             size_hint: None, None
             size: dp(200), dp(50)
             pos_hint: {"center_x": 0.5, "center_y": 0.3}
             on_release: app.open_bsu_account()
+            background_normal: 'buttons/bsuaccbtn.png'
+            background_down: 'buttons/bsuaccbtn.png'
         
         Button:
             id: back
@@ -222,6 +224,26 @@ WindowManager:
             on_release: app.open_website('https://batstateu.edu.ph/?fbclid=IwY2xjawGDScZleHRuA2FlbQIxMAABHStZ27tFxqOOwy0CACeJt8NRt1LKx5NyGZBbDR8bfwEfVh0Rlqy5xISIMQ_aem_TBzMYBpi8PKAErWOlBWgkA')
             background_normal: 'buttons/webbtn.png'
             background_down: 'buttons/webbtn.png'
+        Button:
+            
+            size_hint: None, None
+            size: dp(90), dp(60)
+            pos_hint: {"x": 0.375, "y": 0.53}
+            on_release: app.open_website('https://www.facebook.com/BatStateUTheNEU')
+            background_normal: 'buttons/fbbtn.png'  
+            background_down: 'buttons/fbbtn.png'  
+
+        Button:
+            
+            size_hint: None, None
+            size: dp(90), dp(60)
+            pos_hint: {"x": 0.375, "y": 0.32}
+            on_release: app.open_website('https://www.youtube.com/@batstateutheneu')
+            background_normal: 'buttons/ytbtn.png'
+            background_down: 'buttons/ytbtn.png'  
+
+        
+    
 
 <FifthWindow>:
     name: "five"
