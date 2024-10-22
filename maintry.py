@@ -8,6 +8,8 @@ import webbrowser
 from kivy.garden.mapview import MapView
 import json
 import os
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
 
 # Set the window size
 Window.size = (360, 640)
@@ -111,27 +113,54 @@ WindowManager:
     name: "second"
     FloatLayout:
         Image:
+            source: 'bg\profilebg.png'
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+
+        Image:
             id: profile_pic
             source: ''  # User profile picture
             size_hint: None, None
             size: dp(100), dp(100)
             pos_hint: {"center_x": 0.5, "center_y": 0.7}
-
+        
         Label:
             id: name
-            text: "NAME: "
+            text: "NAME: [u]{}[/u]".format(app.user_data['name'])
+            markup: True
             font_size: 18
             size_hint: None, None
             size: 200, 40
             pos_hint: {"center_x": 0.5, "center_y": 0.54}
-            
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.size
+
         Label:
-            id: sr_number
-            text: "SR Number: "
+            id: section
+            text: "SECTION: [u]{}[/u]".format(app.user_data['section'])
+            markup: True
             font_size: 18
             size_hint: None, None
             size: 200, 40
             pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.size
+
+        Label:
+            id: sr_number
+            text: "SR Number: [u]{}[/u]".format(app.user_data['sr_number'])
+            markup: True
+            font_size: 18
+            size_hint: None, None
+            size: 200, 40
+            pos_hint: {"center_x": 0.5, "center_y": 0.46}
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.size
 
         Button:
             text: "Go to BSU Account"
@@ -141,13 +170,15 @@ WindowManager:
             on_release: app.open_bsu_account()
         
         Button:
-            text: "Go Back"
-            size_hint: 0.25, 0.1
-            pos_hint: {"x": 0, "y": 0}
+            id: back
+            size_hint: None, None
+            size: dp(90), dp(60)
+            pos_hint: {"x": 0.375, "y": 0.06}
             on_release:
                 app.root.current = "main"
-                root.manager.transition.direction = "right"
-    
+                root.manager.transition.direction = "down"
+            background_normal: 'buttons/bckbtn.png'
+            background_down: 'buttons/bckbtn.png'
 
 <ThirdWindow>:
     name: "third"
@@ -220,12 +251,13 @@ def load_users():
     if os.path.exists('users.txt'):
         with open('users.txt', 'r') as f:
             for line in f:
-                email, password, schedule, image_path, name, sr_number, bsu_url = line.strip().split(',')
+                email, password, schedule, image_path, name, section, sr_number, bsu_url = line.strip().split(',')
                 users[email.upper()] = {
                     "password": password, 
                     "schedule": schedule,
                     "image_path": image_path,
-                    "name":name,
+                    "name": name,
+                    "section": section,
                     "sr_number": sr_number,
                     "bsu_url": bsu_url
                 }
@@ -270,7 +302,8 @@ class SecondWindow(Screen):
             # Update the profile picture, SR number, and set the BSU account URL
             self.ids.profile_pic.source = user_data["image_path"]
             self.ids.name.text = f"NAME: {user_data['name']}"
-            self.ids.sr_number.text = f"SR Number: {user_data['sr_number']}"
+            self.ids.section.text = f"SECTION: {user_data['section']}"
+            self.ids.sr_number.text = f"SR NUMBER: {user_data['sr_number']}"
             app.bsu_account_url = user_data["bsu_url"]
 
 class ThirdWindow(Screen):

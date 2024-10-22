@@ -227,48 +227,6 @@ def get_clicked_pos(pos, rows, width):
     return row, col
 
 # Main function to run the program
-def main(win, width):
-    ROWS = 50
-    image_grid = process_image_to_grid('your_image.png', ROWS)
-    grid = make_grid_from_image(ROWS, width, image_grid)
-
-    start = None
-    end = None
-
-    run = True
-    while run:
-        draw(win, grid, ROWS, width)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-
-            if pygame.mouse.get_pressed()[0]: # LEFT CLICK
-                pos = pygame.mouse.get_pos()
-                row, col = get_clicked_pos(pos, ROWS, width)
-                spot = grid[row][col]
-                if not start and spot != end and not spot.is_barrier():
-                    start = spot
-                    start.make_start()
-
-                elif not end and spot != start and not spot.is_barrier():
-                    end = spot
-                    end.make_end()
-
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and start and end:
-                    for row in grid:
-                        for spot in row:
-                            spot.update_neighbors(grid)
-
-                    algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
-
-                if event.key == pygame.K_c:
-                    start = None
-                    end = None
-                    grid = make_grid_from_image(ROWS, width, image_grid)
-
-    pygame.quit()
-
 def process_image_to_grid(image_path, rows):
     image = cv2.imread(image_path)
     if image is None:
@@ -296,8 +254,8 @@ def process_image_to_grid(image_path, rows):
 
 
 def main(win, width):
-    ROWS = 50  # Define ROWS here
-    image_grid = process_image_to_grid('C:\\Users\\Lorelei\\Downloads\\deg3.png', ROWS)
+    ROWS = 100  # Define ROWS here
+    image_grid = process_image_to_grid('C:/Users/Lorelei/Downloads/Untitled design (2).png', ROWS)
     grid = make_grid_from_image(ROWS, width, image_grid)
 
     start = None
@@ -337,7 +295,7 @@ def main(win, width):
 
     pygame.quit()
 
-    image_grid = process_image_to_grid('map/map.png', ROWS)
+    image_grid = process_image_to_grid('C:/Users/Lorelei/Downloads/Untitled design (2).png', ROWS)
 
 # Run the main function
 
