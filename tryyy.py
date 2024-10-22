@@ -1,112 +1,151 @@
 import kivy
 from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
-from kivy.uix.textinput import TextInput
-from kivy.uix.dropdown import DropDown
-from kivy.uix.spinner import Spinner
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
+from kivy.uix.spinner import Spinner
 from kivy.clock import Clock
-import time
+import pygame
+import datetime
 
-kivy.require('2.1.0')  # Ensure the correct version of Kivy
+# Initialize pygame for sound
+pygame.mixer.init()
 
-# Hardcoded users
-users = {
-    'lei@gmail.com': {'password': '123', 'schedule': {'Mon': 'jog (7AM - 8AM)', 'Tue': 'sleep (7AM - 8AM)'}},
-    'lore@gmail.com': {'password': '456', 'schedule': {'Mon': 'sleep (7AM - 8AM)', 'Tue': 'jog (7AM - 8AM)'}}
-}
-
-class LoginScreen(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+class AlarmApp(App):
+    def build(self):
+        self.title = "Alarm Scheduler"
         self.layout = BoxLayout(orientation='vertical')
         
-        self.email_input = TextInput(hint_text="Email", size_hint=(None, None), height=40, width=200)
-        self.password_input = TextInput(hint_text="Password", password=True, size_hint=(None, None), height=40, width=200)
-        self.login_button = Button(text="Login", size_hint=(None, None), height=50, width=200)
-        self.login_button.bind(on_press=self.login)
-
-        self.layout.add_widget(self.email_input)
-        self.layout.add_widget(self.password_input)
-        self.layout.add_widget(self.login_button)
-        self.add_widget(self.layout)
-
-    def login(self, instance):
-        email = self.email_input.text
-        password = self.password_input.text
-
-        if email in users and users[email]['password'] == password:
-            self.manager.current = 'schedule'
-            self.manager.get_screen('schedule').update_schedule(email)
-        else:
-            self.show_popup("Login Failed", "Incorrect email or password.")
-
-    def show_popup(self, title, message):
-        content = BoxLayout(orientation='vertical')
-        content.add_widget(Label(text=message))
-        close_button = Button(text="Close", size_hint=(None, None), width=200, height=50)
-        content.add_widget(close_button)
-        popup = Popup(title=title, content=content, size_hint=(None, None), size=(400, 200))
-        close_button.bind(on_press=popup.dismiss)
-        popup.open()
-
-
-class ScheduleScreen(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.layout = BoxLayout(orientation='vertical')
-
-        # Initialize the schedule_label here, so it's only added once
-        self.schedule_label = Label(text="Schedule will appear here.")
+        # Schedule label
+        self.schedule_label = Label(text="Set Your Schedule (Philippine Time)")
         self.layout.add_widget(self.schedule_label)
 
-        # Spinner and button for alarm
-        self.alarm_spinner = Spinner(text="Set Alarm", values=("5 mins", "10 mins", "None"), size_hint=(None, None), width=200)
-        self.alarm_button = Button(text="Set Alarm", size_hint=(None, None), height=50, width=200)
+        # Create Spinners for Year, Month, Day, Hour, Minute
+        self.year_spinner = Spinner(
+            text='2024',
+            values=[str(year) for year in range(2023, 2030)],
+            size_hint=(None, None),
+            size=(200, 44)
+        )
+        self.layout.add_widget(self.year_spinner)
 
-        self.layout.add_widget(self.alarm_spinner)
-        self.layout.add_widget(self.alarm_button)
+        self.month_spinner = Spinner(
+            text='1',
+            values=[str(i) for i in range(1, 13)],
+            size_hint=(None, None),
+            size=(200, 44)
+        )
+        self.layout.add_widget(self.month_spinner)
+
+        self.day_spinner = Spinner(
+            text='1',
+            values=[str(i) for i in range(1, 32)],
+            size_hint=(None, None),
+            size=(200, 44)
+        )
+        self.layout.add_widget(self.day_spinner)
+
+        self.hour_spinner = Spinner(
+            text='12',
+            values=[str(i) for i in range(0, 24)],
+            size_hint=(None, None),
+            size=(200, 44)
+        )
+        self.layout.add_widget(self.hour_spinner)
+
+        self.minute_spinner = Spinner(
+            text='00',
+            values=[str(i).zfill(2) for i in range(0, 60)],
+            size_hint=(None, None),
+            size=(200, 44)
+        )
+        self.layout.add_widget(self.minute_spinner)
+
+        # Alarm Time dropdown (10 or 5 minutes before)
+        self.alarm_label = Label(text="Set Alarm Time Before Schedule")
+        self.layout.add_widget(self.alarm_label)
         
-        # Bind the button to the set_alarm method
-        self.alarm_button.bind(on_press=self.set_alarm)
+        self.alarm_spinner = Spinner(
+            text='10 minutes',
+            values=('10 minutes', '5 minutes'),
+            size_hint=(None, None),
+            size=(200, 44)
+        )
+        self.layout.add_widget(self.alarm_spinner)
 
-        # Add the layout to the screen
-        self.add_widget(self.layout)
+        # Set Schedule button
+        self.set_button = Button(text="Set Alarm")
+        self.set_button.bind(on_press=self.set_alarm)
+        self.layout.add_widget(self.set_button)
 
-    def update_schedule(self, email):
-        # Update the schedule based on the logged-in user
-        user_schedule = users[email]['schedule']
-        schedule_text = "\n".join([f"{day}: {activity}" for day, activity in user_schedule.items()])
-        self.schedule_label.text = f"Your Schedule:\n{schedule_text}"
+        return self.layout
 
     def set_alarm(self, instance):
-        alarm_time = self.alarm_spinner.text
-        if alarm_time == "None":
-            self.show_popup("No Alarm", "No alarm will be set.")
+        # Get the schedule time from the spinners
+        year = int(self.year_spinner.text)
+        month = int(self.month_spinner.text)
+        day = int(self.day_spinner.text)
+        hour = int(self.hour_spinner.text)
+        minute = int(self.minute_spinner.text)
+
+        # Create the scheduled datetime object
+        schedule_time = datetime.datetime(year, month, day, hour, minute)
+        alarm_offset = self.alarm_spinner.text
+
+        # Calculate the alarm time (subtracting minutes from schedule)
+        if alarm_offset == '10 minutes':
+            alarm_time = schedule_time - datetime.timedelta(minutes=10)
         else:
-            minutes_before = int(alarm_time.split()[0])
-            self.show_popup("Alarm Set", f"Alarm will trigger {minutes_before} minutes before the scheduled time.")
+            alarm_time = schedule_time - datetime.timedelta(minutes=5)
 
-    def show_popup(self, title, message):
+        # Schedule the alarm to trigger at the calculated time
+        current_time = datetime.datetime.now()
+        time_to_alarm = (alarm_time - current_time).total_seconds()
+
+        # Schedule the alarm callback
+        if time_to_alarm > 0:
+            Clock.schedule_once(self.trigger_alarm, time_to_alarm)
+            print(f"Alarm set for {alarm_time} (triggering in {time_to_alarm} seconds)")
+        else:
+            print("Scheduled time is in the past!")
+
+    def trigger_alarm(self, dt):
+        # Play sound using pygame
+        pygame.mixer.music.load('alarm/alarm.mp3')
+        pygame.mixer.music.play(-1)  # Loop the sound
+
+        # Show the popup notification
+        self.show_popup()
+
+    def show_popup(self):
         content = BoxLayout(orientation='vertical')
-        content.add_widget(Label(text=message))
-        close_button = Button(text="Close", size_hint=(None, None), width=200, height=50)
-        content.add_widget(close_button)
-        popup = Popup(title=title, content=content, size_hint=(None, None), size=(400, 200))
-        close_button.bind(on_press=popup.dismiss)
-        popup.open()
+        label = Label(text="Time's Up! Alarm Triggered!")
+        stop_button = Button(text="Stop")
+        stop_button.bind(on_press=self.stop_alarm)
+        snooze_button = Button(text="Snooze")
+        snooze_button.bind(on_press=self.snooze_alarm)
 
+        content.add_widget(label)
+        content.add_widget(stop_button)
+        content.add_widget(snooze_button)
 
-class MyApp(App):
-    def build(self):
-        sm = ScreenManager()
-        sm.add_widget(LoginScreen(name='login'))
-        sm.add_widget(ScheduleScreen(name='schedule'))
-        return sm
+        self.popup = Popup(title="Alarm Notification", content=content, size_hint=(0.5, 0.5))
+        self.popup.open()
 
+    def stop_alarm(self, instance):
+        # Stop sound and close popup
+        pygame.mixer.music.stop()
+        self.popup.dismiss()
+
+    def snooze_alarm(self, instance):
+        # Stop sound and snooze (e.g., reset alarm to trigger in 5 minutes again)
+        pygame.mixer.music.stop()
+        self.popup.dismiss()
+
+        # Reschedule alarm to trigger again in 5 minutes
+        Clock.schedule_once(self.trigger_alarm, 5 * 60)  # 5 minutes
+        print("Snoozing alarm, will trigger again in 5 minutes.")
 
 if __name__ == '__main__':
-    MyApp().run()
+    AlarmApp().run()

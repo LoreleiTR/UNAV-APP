@@ -254,8 +254,8 @@ def process_image_to_grid(image_path, rows):
 
 
 def main(win, width):
-    ROWS = 100  # Define ROWS here
-    image_grid = process_image_to_grid('C:/Users/Lorelei/Downloads/Untitled design (2).png', ROWS)
+    ROWS = 150  # Define ROWS here
+    image_grid = process_image_to_grid('C:/Users//Lorelei/Downloads/map1.png', ROWS)
     grid = make_grid_from_image(ROWS, width, image_grid)
 
     start = None
@@ -295,7 +295,7 @@ def main(win, width):
 
     pygame.quit()
 
-    image_grid = process_image_to_grid('C:/Users/Lorelei/Downloads/Untitled design (2).png', ROWS)
+    image_grid = process_image_to_grid('C:/Users/Lorelei/Downloads/map1.png"', ROWS)
 
 # Run the main function
 
