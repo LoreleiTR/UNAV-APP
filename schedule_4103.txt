@@ -1,77 +1,109 @@
-Monday:
 
 
-09:00 AM-10:00 AM: CpE 427 - Connecting Networks and Security (Cisco 4) (ONLINE)
-
-10:00 AM-11:00 AM: Lit 102 - ASEAN Literature (Sunti) Sarmiento, Jean Valery S. (ONLINE)
-
-01:00 PM-03:00 PM: CpE 427 - Connecting Networks and Security (Cisco 4) Cueto, Bingo D. (RM 201 (CICS))
-
-03:00 PM-05:00 PM: CpE 428 - Embedded Systems (Sunti) Contreras, Lala A. (RM 201(CICS))
+MONDAY:
+No classes 
 
 
 
+TEUSDAY:
 
-Tuesday:
+07:00 AM - 10:00 AM 
+CpE 427 - Connecting Networks 
+and Security (Cisco 4)
+    (CPE LAB)
 
+10:00 AM - 1:00 PM
+CpE 403 - Cognitive
+/ Elective Course 3.5 
+-Lopez, Eugenie S. 
+    (COMP LAB 1)
 
-02:00 PM-03:00 PM: CpE 428 - Embedded Systems Contreras, Lala A.
+03:00 PM - 04:00 PM
+CpE 428 - Embedded Systems 
+-Contreras, Laila A. 
+    (ONLINE)
 
-05:00 PM-06:00 PM: CpE 426 - Manufacturing and Quality Control (Sunti) Cueto, Bingo D. (ONLINE)
-
-
-
-Wednesday:
-
-
-07:00 AM-09:00 AM: Lit 102 - ASEAN Literature (Sunti) Sarmiento, Jean Valery S. (RM 201 (CICS))
-
-09:00 AM-11:00 AM: CpE 427 - Connecting Networks and Security (Cisco 4) Cueto, Bingo D. (RM 201 (CICS))
-
-01:00 PM-04:00 PM: CpE 403 - Cognitive / Elective Course 3.5 Lopez, Eugenie S. (CPE LAB)
-
-
-
-Thursday:
-
-
-07:00 AM-10:00 AM: CpE 428 - Embedded Systems Contreras, Lala A. (COMPLAB1)
-
-11:00 AM-05:00 PM: CpE 420 - Seminars and Field Trips Contreras, Lala A. (ONLINE)
+04:00 PM - 06:00 PM
+Lit 102 - ASEAN Literature 
+-Sarmiento, Jean Valery S. 
+    (ONLINE)
 
 
 
+WEDNESDAY
 
-Friday:
+07:00 AM - 09:00 AM
+CpE 428 - Embedded Systems 
+-Contreras, Laila A. 
+    (RM 202(CICS))
 
+12:00 AM - 2:00 PM
+CpE 403 - Cognitive
+/ Elective Course 3.5 
+-Lopez, Eugenie S. 
+    (RM 201(CICS))
 
-07:00 AM-10:00 AM: CpE 428 - Embedded Systems Contreras, Lala A. (COMPLAB1)
-
-11:00 AM-01:00 PM: CpE 405 - Computer Engineering Drafting and Design (Sunti) Bayos, Mary Joan Z. (RM 202 (CICS))
-
-01:00 PM-04:00 PM: CpE 427 - Connecting Networks and Security (Cisco 4) Cueto, Bingo D. (COMPLAB1)
-
-
-
-Saturday:
-
-
-09:00 AM-10:00 AM: CpE 427 - Connecting Networks and Security (Cisco 4) (ONLINE)
-
-
-
-Sunday:
-
-
-09:00 AM-10:00 AM: CpE 427 - Connecting Networks and Security (Cisco 4) (ONLINE)
-
-10:00 AM-11:00 AM: Lit 102 - ASEAN Literature (Sunti) Sarmiento, Jean Valery S. (ONLINE)
-
-01:00 PM-03:00 PM: CpE 427 - Connecting Networks and Security (Cisco 4) Cueto, Bingo D. (RM 201 (CICS))
+04:00 PM - 05:00 PM
+CpE 426 - Manufacturing 
+and Quality Control
+-Cueto, Bingo D.
+    (ONLINE)
 
 
 
+THURSDAY
 
+07:00 AM - 10:00 AM
+CpE 405 - Computer Engineering 
+Drafting and Design
+-Rayos, Mark John Fel
+    (CPE LAB)
+
+10:00 AM - 01:00 PM
+CpE 428 - Embedded Systems 
+-Contreras, Laila A. 
+    (COMP LAB 1)
+
+02:00 PM - 03:00 PM
+Lit 102 - ASEAN Literature 
+-Sarmiento, Jean Valery S. 
+    (RM 201(CICS))
+
+03:00 PM - 04:00 PM 
+CpE 427 - Connecting Networks 
+and Security (Cisco 4)
+    (ONLINE)
+
+
+
+FRIDAY
+
+07:00 AM - 08:00 AM
+CpE 420 - Seminars and 
+Field Trips 
+-Contreras, Laila A. 
+    (ONLINE)
+
+11:00 AM - 01:00 PM
+CpE 427 - Connecting Networks 
+and Security (Cisco 4)
+    (RM 201(CICS))
+
+01:00 PM - 03:00 PM
+CpE 426 - Manufacturing 
+and Quality Control
+-Cueto, Bingo D.
+    (RM 201(CICS))
+
+
+
+SATURDAY
+
+07:00 AM - 12:00 PM
+CpE 420 - Seminars and 
+Field Trips 
+-Contreras, Laila A. 
+    (AMPHI)
 
 
 

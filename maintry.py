@@ -187,19 +187,59 @@ WindowManager:
 <ThirdWindow>:
     name: "third"
     FloatLayout:
-        ScrollView:
-            size_hint: (1, 1)  # Use full available space
-            do_scroll_x: False  # Disable horizontal scrolling
-            do_scroll_y: True  # Enable vertical scrolling
-            Label:
-                id: schedule_label
-                text: "No schedule available."
-                size_hint_y: None  # Allow dynamic height
-                height: self.texture_size[1]  # Set height to fit text
-                halign: 'left'
-                valign: 'top'  # Align text to the top
-                text_size: self.width, None  # Allow text to wrap based on the width
-                padding: [10, 10]  # Add some padding for better visuals
+        Image:
+            source: 'bg/schedbg.png'
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+
+        # Red box 
+        BoxLayout:
+            padding: [30, 0, 30, 30]  # Add space (left, top, right, bottom)
+            
+            ScrollView:
+                size_hint: (0.9, 0.7)  # Match the adjusted size
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}  # Center within the parent layout
+                do_scroll_x: False  # Disable horizontal scrolling
+                do_scroll_y: True  # Enable vertical scrolling
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None  # Allow vertical resizing
+                    height: self.minimum_height  # Set height to fit all children
+
+                    Label:
+                        id: schedule_label
+                        text: "No schedule available."
+                        markup: True  # Enable markup
+                        size_hint_y: None  # Let the height adjust based on content
+                        size_hint_x: None  # Remove automatic width scaling
+                        width: root.width * 0.77  # Make the label slightly smaller than the red box
+                        height: self.texture_size[1]  # Adjust height dynamically based on text
+                        halign: 'left'  # Align text to the left
+                        valign: 'top'  # Align text to the top
+                        text_size: self.width - 20, None  # Allow text to wrap within the label's width
+                        padding: [10, 10]  # Add padding for better visuals
+
+                    # Spacer at the bottom for extra space after scrolling
+                    Widget:
+                        size_hint_y: None
+                        height: dp(30)  # Add space at the bottom
+
+      
+        Button:
+            id: back
+            size_hint: None, None
+            size: dp(90), dp(60)
+            pos_hint: {"x": 0.375, "y": 0.06}
+            on_release:
+                app.root.current = "main"
+                root.manager.transition.direction = "down"
+            background_normal: 'buttons/bckbtn.png'
+            background_down: 'buttons/bckbtn.png'
+
+
 
 
 
@@ -335,7 +375,6 @@ class SecondWindow(Screen):
 
 
 
-
 class ThirdWindow(Screen):
     def on_enter(self):
         app = App.get_running_app()
@@ -343,16 +382,30 @@ class ThirdWindow(Screen):
         if user:
             schedule_file = users[user]["schedule"]  # Get the filename
             schedule_text = "No schedule available."
+            
             if os.path.exists(schedule_file):
                 with open(schedule_file, 'r') as f:
                     schedule = f.read().strip()  # Read the content of the schedule file
-                
+
+                # Apply markup for bold and underline the days, and bold the times
                 if schedule:
-                    schedule_text = "Weekly Schedule:\n\n" + schedule
+                    schedule_text = "WEEKLY SCHEDULE:\n\n"
+                    schedule = schedule.replace("MONDAY:", "[b][u]MONDAY:[/u][/b]")
+                    schedule = schedule.replace("TUESDAY:", "[b][u]TUESDAY:[/u][/b]")
+                    schedule = schedule.replace("WEDNESDAY:", "[b][u]WEDNESDAY:[/u][/b]")
+                    schedule = schedule.replace("THURSDAY:", "[b][u]THURSDAY:[/u][/b]")
+                    schedule = schedule.replace("FRIDAY:", "[b][u]FRIDAY:[/u][/b]")
+                    schedule = schedule.replace("SATURDAY:", "[b][u]SATURDAY:[/u][/b]")
+                    schedule = schedule.replace("SUNDAY:", "[b][u]SUNDAY:[/u][/b]")
+
+                    # Bold the times (assumes times follow this format)
+                    schedule = schedule.replace("AM", "[b]AM[/b]").replace("PM", "[b]PM[/b]")
+                    
+                    schedule_text += schedule
             
+            # Assign the processed text with markup to the label
             self.ids.schedule_label.text = schedule_text
-
-
+            self.ids.schedule_label.markup = True  # Enable markup for the label
 
 
 class FourthWindow(Screen):
