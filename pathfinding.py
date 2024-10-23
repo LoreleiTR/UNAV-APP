@@ -97,7 +97,7 @@ class Spot:
     def __lt__(self, other):
         return False
 
-# Heuristic function for A* (Manhattan distance)
+# function for A* 
 def h(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
@@ -156,7 +156,7 @@ def algorithm(draw, grid, start, end):
 
     return False
 
-# Process image and create grid based on colors
+
 def process_image_to_grid(image_path, rows):
     image = cv2.imread(image_path)
     image = cv2.resize(image, (rows, rows))
@@ -188,11 +188,11 @@ def make_grid_from_image(rows, width, image_grid):
         for j in range(rows):
             spot = Spot(i, j, gap, rows)
             if image_grid[i][j] == 1:
-                spot.make_barrier()  # Mark as barrier if it's a wall
+                spot.make_barrier()  
             grid[i].append(spot)
     return grid
 
-# Draw grid lines
+# Draw 
 def draw_grid(win, rows, width):
     gap = width // rows
     for i in range(rows):
@@ -221,7 +221,7 @@ def get_clicked_pos(pos, rows, width):
 
     return row, col
 
-# Main function to run the program
+# Main 
 def process_image_to_grid(image_path, rows):
     image = cv2.imread(image_path)
     if image is None:

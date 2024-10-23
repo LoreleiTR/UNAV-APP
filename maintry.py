@@ -390,68 +390,37 @@ class SecondWindow(Screen):
             app.bsu_account_url = user_data["bsu_url"]
 
 
-
-
 class ThirdWindow(Screen):
-    def __init__(self, **kwargs):
-        super(ThirdWindow, self).__init__(**kwargs)
-        self.schedule_file = "schedule.txt"
-        self.schedule = self.load_schedule()
-        self.display_schedule()
+
+    def on_enter(self):
+        app = App.get_running_app()
+        user = app.current_user
+        if user:
+            user_data = app.users[user]
+            self.schedule_file = user_data.get("schedule")
+            self.schedule = self.load_schedule()
+            self.display_schedule()
 
     def load_schedule(self):
-        try:
-            with open(self.schedule_file, 'r') as file:
-                return file.readlines()
-        except FileNotFoundError:
-            print("Schedule file not found.")
-            return []
+        if os.path.exists(self.schedule_file):
+            with open(self.schedule_file, 'r') as f:
+                return f.readlines()
+        return []
 
     def display_schedule(self):
-        class_times = self.extract_schedule_times(self.schedule)
-        self.ids.schedule_label.text = "Class Times: " + ', '.join([time.strftime("%I:%M %p") for time in class_times])
+        schedule_label = self.ids.schedule_label
+        if self.schedule:
+            schedule_label.text = "\n".join(self.schedule)
+        else:
+            schedule_label.text = "No schedule available."
 
-    def extract_schedule_times(self, schedule):
-        class_times = []
-        days = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
-        
-        current_day = None
-        for line in schedule:
-            line = line.strip()
-            if line.endswith(':'):
-                current_day = line[:-1].strip()
-            elif current_day and line:
-                self.add_class_time(line, current_day, class_times)
+    def show_alarm_popup(self, message):
+        popup = Popup(title='Alarm', content=Label(text=message), size_hint=(0.8, 0.4))
+        popup.open()
 
-        return class_times
-
-    def add_class_time(self, time_str, day, class_times):
-        try:
-            class_time = datetime.datetime.strptime(time_str.strip(), "%I:%M %p")
-            today = datetime.datetime.now()
-            weekday = today.weekday()
-            days_ahead = (["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"].index(day) - weekday) % 7
-            class_time += datetime.timedelta(days=days_ahead)
-            class_times.append(class_time)
-        except ValueError:
-            print(f"Skipping invalid time format in schedule: {time_str}")
-
-    def show_popup(self):
-        content = BoxLayout(orientation='vertical')
-        label = Label(text=self.ids.schedule_label.text)
-        close_button = Button(text="Close")
-        close_button.bind(on_press=self.close_popup)
-
-        content.add_widget(label)
-        content.add_widget(close_button)
-
-        self.popup = Popup(title="Schedule", content=content, size_hint=(0.5, 0.5))
-        self.popup.open()
-
-    def close_popup(self, instance):
-        self.popup.dismiss()
-
-
+    def set_alarm(self, class_time):
+        # Implement alarm logic here
+        self.show_alarm_popup(f"Time for class: {class_time}")
 
 class FourthWindow(Screen):
     pass
@@ -466,6 +435,8 @@ class WindowManager(ScreenManager):
 class MyMainApp(App):
     current_user = None
     bsu_account_url = ""
+    users = load_users()  # Load users into the app
+    
 
     def build(self):
         return Builder.load_string(kv)  # Load the KV layout from the string
