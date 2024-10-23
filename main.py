@@ -28,34 +28,41 @@ WindowManager:
     name: "login"
     
     FloatLayout:
+        Image:
+            source: 'bg\loginbg.png'
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
         Label:
-            text: "Login"
-            font_size: 30
-            size_hint_y: None
-            height: 40
-            pos_hint: {"center_x": 0.5, "center_y": 0.75}
+            text: "LOGIN"
+            font_size: 40
+            bold: True
+            size_hint: (0.4, 0.1)  # Adjust size for better fit
+            pos_hint: {"center_x": 0.5, "center_y": 0.7}  # Center in the red box area
         
         TextInput:
             id: email
             hint_text: "Email"
-            size_hint_y: None
-            height: 40
-            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            size_hint: (0.8, None)  # Control width relative to red box
+            height: 50  # Adjust height for better spacing
+            pos_hint: {"center_x": 0.5, "center_y": 0.57}  # Position closer to the label
         
         TextInput:
             id: password
             hint_text: "Password"
             password: True
-            size_hint_y: None
-            height: 40
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            size_hint: (0.8, None)  # Control width relative to red box
+            height: 50
+            pos_hint: {"center_x": 0.5, "center_y": 0.47}  # Keep distance consistent with the email field
 
         Button:
             text: "Login"
-            size_hint_y: None
+            size_hint: (0.6, None)  # Control width to match other inputs
             height: 50
-            pos_hint: {"center_x": 0.5, "center_y": 0.35}
+            pos_hint: {"center_x": 0.5, "center_y": 0.35}  # Align with text inputs
             on_release: root.verify_login()
+
 
 <MainWindow>:
     name: "main"

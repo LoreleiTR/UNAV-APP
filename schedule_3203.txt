@@ -1,0 +1,76 @@
+MONDAY:
+10:00 AM - 01:00 PM
+CPE 425 - Computer Architecture 
+and Organization 
+(COMP LAB 1)
+- Contreras, Laila A.
+
+01:00 PM - 04:00 PM
+CPE 424 - Operating Systems 
+(RM 501(CICS))
+- Garcia, Mariane M.
+
+05:00 PM - 08:00 PM 
+CPE 423 - Scaling Networks (Cisco 3)
+- Sarmiento, Jeffrey S.
+(Online)
+
+
+TUESDAY:
+07:00 AM - 10:00 AM
+CPE 424 - Operating Systems
+- Garcia, Mariane M.
+(COMP LAB 3)
+
+10:00 AM - 01:00 PM
+CPE 425 - Computer Architecture 
+and Organization
+- Contreras, Laila A.
+(COMP LAB 1)
+
+
+
+WEDNESDAY:
+07:00 AM - 10:00 AM
+CPE 425 - Computer Architecture 
+and Organization
+- Contreras, Laila A.
+(RM 501(CICS))
+
+10:00 AM - 01:00 PM
+CPE 425 - Computer Architecture 
+and Organization 
+- Contreras, Laila A.
+(CPE LAB 1)
+
+01:00 PM - 04:00 PM
+CPE 424 - Operating Systems
+- Garcia, Mariane M.
+(RM 501(CICS))
+
+
+
+THURSDAY:
+07:00 AM - 10:00 AM
+CPE 425 - Computer Architecture 
+and Organization 
+- Contreras, Laila A.
+(CPE LAB 1)
+
+02:00 PM - 05:00 PM
+CPE 425 - Computer Architecture 
+and Organization
+- Contreras, Laila A.
+(CPE LAB 1)
+
+
+FRIDAY:
+No Classes
+
+
+
+SATURDAY:
+10:00 AM - 04:00 PM 
+CPE 423 - Scaling Networks (Cisco 3)
+- Sarmiento, Jeffrey S.
+(COMP LAB 3) 

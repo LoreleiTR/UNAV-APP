@@ -1,4 +1,2 @@
-1,1,MON 7-1PM CLASS,pfp/leimail.png,Lorelei T. Robles,4103,123456,https://classroom.google.com/h
-LOREMAIL,455,MON 5-6AM CLASS,pfp/leimail.png,Mini Col,1203,789101,https://bsu-loremail.edu.ph
-1,2,WED 3-5PM LAB|MON 2-4 school|MON 5-6 work,pfp/leimail.png,Lorelei T. Robles,4103,123456,https://classroom.google.com/h
-2,2,schedule_4103.txt,pfp/leimail.png,Lorelei T. Robles,4103,123456,https://classroom.google.com/h
+21-01853@g.batstate-u.edu.ph,21-01853,schedule_4103.txt,pfp/leimail.png,Lorelei T. Robles,4103,21-01853,https://dione.batstate-u.edu.ph/student/#/dashboard
+21-01871@g.batstate-u.edu.ph,21-01871,schedule_3203.txt,pfp\jaymail.png,Jayvher Ferolino,3203,21-01871,https://dione.batstate-u.edu.ph/student/#/auth/L2Rhc2hib2FyZA==
