@@ -10,7 +10,15 @@ import json
 import os
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.popup import Popup
+from kivy.uix.spinner import Spinner
+from kivy.clock import Clock
+import pygame
+import datetime
 
+pygame.mixer.init()
 # Set the window size
 Window.size = (360, 640)
 
@@ -194,50 +202,58 @@ WindowManager:
             size_hint: (1, 1)
             pos_hint: {"x": 0, "y": 0}
 
-        # Red box 
         BoxLayout:
-            padding: [30, 0, 30, 30]  # Add space (left, top, right, bottom)
-            
+            padding: [30, 0, 30, 30]
+            orientation: 'vertical'
+
             ScrollView:
-                size_hint: (0.9, 0.7)  # Match the adjusted size
-                pos_hint: {"center_x": 0.5, "center_y": 0.5}  # Center within the parent layout
-                do_scroll_x: False  # Disable horizontal scrolling
-                do_scroll_y: True  # Enable vertical scrolling
+                size_hint: (0.9, 0.7)
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                do_scroll_x: False
+                do_scroll_y: True
 
                 BoxLayout:
                     orientation: 'vertical'
-                    size_hint_y: None  # Allow vertical resizing
-                    height: self.minimum_height  # Set height to fit all children
+                    size_hint_y: None
+                    height: self.minimum_height
 
                     Label:
                         id: schedule_label
                         text: "No schedule available."
-                        markup: True  # Enable markup
-                        size_hint_y: None  # Let the height adjust based on content
-                        size_hint_x: None  # Remove automatic width scaling
-                        width: root.width * 0.77  # Make the label slightly smaller than the red box
-                        height: self.texture_size[1]  # Adjust height dynamically based on text
-                        halign: 'left'  # Align text to the left
-                        valign: 'top'  # Align text to the top
-                        text_size: self.width - 20, None  # Allow text to wrap within the label's width
-                        padding: [10, 10]  # Add padding for better visuals
+                        markup: True
+                        size_hint_y: None
+                        width: root.width * 0.77
+                        height: self.texture_size[1]
+                        halign: 'left'
+                        valign: 'top'
+                        text_size: self.width - 20, None
+                        padding: [10, 10]
 
-                    # Spacer at the bottom for extra space after scrolling
                     Widget:
                         size_hint_y: None
-                        height: dp(30)  # Add space at the bottom
+                        height: dp(30)
 
-      
         Button:
             id: back
             size_hint: None, None
             size: dp(90), dp(60)
-            pos_hint: {"x": 0.375, "y": 0.06}
+            pos_hint: {"x": 0.1, "y": 0.06}
             on_release:
                 app.root.current = "main"
                 root.manager.transition.direction = "down"
             background_normal: 'buttons/bckbtn.png'
             background_down: 'buttons/bckbtn.png'
+
+        Button:
+            id: alarm
+            size_hint: None, None
+            size: dp(90), dp(60)
+            pos_hint: {"x": 0.5, "y": 0.06}
+            text: "Set Alarm"
+            on_release: root.show_alarm_popup()  # Call show_alarm_popup from the ThirdWindow
+            background_normal: 'buttons/alarmbtn.png'
+            background_down: 'buttons/alarmbtn.png'
+
 
 
 
@@ -375,37 +391,66 @@ class SecondWindow(Screen):
 
 
 
+
 class ThirdWindow(Screen):
-    def on_enter(self):
-        app = App.get_running_app()
-        user = app.current_user
-        if user:
-            schedule_file = users[user]["schedule"]  # Get the filename
-            schedule_text = "No schedule available."
-            
-            if os.path.exists(schedule_file):
-                with open(schedule_file, 'r') as f:
-                    schedule = f.read().strip()  # Read the content of the schedule file
+    def __init__(self, **kwargs):
+        super(ThirdWindow, self).__init__(**kwargs)
+        self.schedule_file = "schedule.txt"
+        self.schedule = self.load_schedule()
+        self.display_schedule()
 
-                # Apply markup for bold and underline the days, and bold the times
-                if schedule:
-                    schedule_text = "WEEKLY SCHEDULE:\n\n"
-                    schedule = schedule.replace("MONDAY:", "[b][u]MONDAY:[/u][/b]")
-                    schedule = schedule.replace("TUESDAY:", "[b][u]TUESDAY:[/u][/b]")
-                    schedule = schedule.replace("WEDNESDAY:", "[b][u]WEDNESDAY:[/u][/b]")
-                    schedule = schedule.replace("THURSDAY:", "[b][u]THURSDAY:[/u][/b]")
-                    schedule = schedule.replace("FRIDAY:", "[b][u]FRIDAY:[/u][/b]")
-                    schedule = schedule.replace("SATURDAY:", "[b][u]SATURDAY:[/u][/b]")
-                    schedule = schedule.replace("SUNDAY:", "[b][u]SUNDAY:[/u][/b]")
+    def load_schedule(self):
+        try:
+            with open(self.schedule_file, 'r') as file:
+                return file.readlines()
+        except FileNotFoundError:
+            print("Schedule file not found.")
+            return []
 
-                    # Bold the times (assumes times follow this format)
-                    schedule = schedule.replace("AM", "[b]AM[/b]").replace("PM", "[b]PM[/b]")
-                    
-                    schedule_text += schedule
-            
-            # Assign the processed text with markup to the label
-            self.ids.schedule_label.text = schedule_text
-            self.ids.schedule_label.markup = True  # Enable markup for the label
+    def display_schedule(self):
+        class_times = self.extract_schedule_times(self.schedule)
+        self.ids.schedule_label.text = "Class Times: " + ', '.join([time.strftime("%I:%M %p") for time in class_times])
+
+    def extract_schedule_times(self, schedule):
+        class_times = []
+        days = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+        
+        current_day = None
+        for line in schedule:
+            line = line.strip()
+            if line.endswith(':'):
+                current_day = line[:-1].strip()
+            elif current_day and line:
+                self.add_class_time(line, current_day, class_times)
+
+        return class_times
+
+    def add_class_time(self, time_str, day, class_times):
+        try:
+            class_time = datetime.datetime.strptime(time_str.strip(), "%I:%M %p")
+            today = datetime.datetime.now()
+            weekday = today.weekday()
+            days_ahead = (["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"].index(day) - weekday) % 7
+            class_time += datetime.timedelta(days=days_ahead)
+            class_times.append(class_time)
+        except ValueError:
+            print(f"Skipping invalid time format in schedule: {time_str}")
+
+    def show_popup(self):
+        content = BoxLayout(orientation='vertical')
+        label = Label(text=self.ids.schedule_label.text)
+        close_button = Button(text="Close")
+        close_button.bind(on_press=self.close_popup)
+
+        content.add_widget(label)
+        content.add_widget(close_button)
+
+        self.popup = Popup(title="Schedule", content=content, size_hint=(0.5, 0.5))
+        self.popup.open()
+
+    def close_popup(self, instance):
+        self.popup.dismiss()
+
 
 
 class FourthWindow(Screen):
