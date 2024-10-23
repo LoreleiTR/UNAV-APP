@@ -187,14 +187,20 @@ WindowManager:
 <ThirdWindow>:
     name: "third"
     FloatLayout:
-        Label:
-            id: schedule_label
-            text: "No schedule"
-            size_hint: (1, None)  # Make it full width
-            height: self.texture_size[1]  # Adjust height based on content
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            halign: 'center'  # Center text
-            text_size: self.size  # Wrap text within label
+        ScrollView:
+            size_hint: (1, 1)  # Use full available space
+            do_scroll_x: False  # Disable horizontal scrolling
+            do_scroll_y: True  # Enable vertical scrolling
+            Label:
+                id: schedule_label
+                text: "No schedule available."
+                size_hint_y: None  # Allow dynamic height
+                height: self.texture_size[1]  # Set height to fit text
+                halign: 'left'
+                valign: 'top'  # Align text to the top
+                text_size: self.width, None  # Allow text to wrap based on the width
+                padding: [10, 10]  # Add some padding for better visuals
+
 
 
 <FourthWindow>:
@@ -341,12 +347,11 @@ class ThirdWindow(Screen):
                 with open(schedule_file, 'r') as f:
                     schedule = f.read().strip()  # Read the content of the schedule file
                 
-                # Check if the schedule is not empty
                 if schedule:
                     schedule_text = "Weekly Schedule:\n\n" + schedule
             
-            # Set the schedule text to the label
             self.ids.schedule_label.text = schedule_text
+
 
 
 
