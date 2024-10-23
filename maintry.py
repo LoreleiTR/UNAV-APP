@@ -182,21 +182,20 @@ WindowManager:
             background_normal: 'buttons/bckbtn.png'
             background_down: 'buttons/bckbtn.png'
 
+
+
 <ThirdWindow>:
     name: "third"
-    Label:
-        id: schedule_label
-        text: "No schedule"
-        size_hint: None, None
-        size: 200, 50
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-    Button:
-        text: "Go Back"
-        size_hint: 0.25, 0.1
-        pos_hint: {"x": 0, "y": 0}
-        on_release:
-            app.root.current = "main"
-            root.manager.transition.direction = "right"
+    FloatLayout:
+        Label:
+            id: schedule_label
+            text: "No schedule"
+            size_hint: (1, None)  # Make it full width
+            height: self.texture_size[1]  # Adjust height based on content
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            halign: 'center'  # Center text
+            text_size: self.size  # Wrap text within label
+
 
 <FourthWindow>:
     name: "fourth"
@@ -328,13 +327,28 @@ class SecondWindow(Screen):
             self.ids.sr_number.text = f"SR NUMBER: {user_data['sr_number']}"
             app.bsu_account_url = user_data["bsu_url"]
 
+
+
+
 class ThirdWindow(Screen):
     def on_enter(self):
         app = App.get_running_app()
         user = app.current_user
         if user:
-            schedule = users[user]["schedule"]
-            self.ids.schedule_label.text = f"{user}'s Schedule: {schedule}"
+            schedule_file = users[user]["schedule"]  # Get the filename
+            schedule_text = "No schedule available."
+            if os.path.exists(schedule_file):
+                with open(schedule_file, 'r') as f:
+                    schedule = f.read().strip()  # Read the content of the schedule file
+                
+                # Check if the schedule is not empty
+                if schedule:
+                    schedule_text = "Weekly Schedule:\n\n" + schedule
+            
+            # Set the schedule text to the label
+            self.ids.schedule_label.text = schedule_text
+
+
 
 class FourthWindow(Screen):
     pass
