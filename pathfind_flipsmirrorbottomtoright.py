@@ -26,11 +26,6 @@ ORANGE = (255, 165 ,0)
 GREY = (128, 128, 128)
 TURQUOISE = (64, 224, 208)
 
-# Spot class for grid
-
-
-
-
 
 class Spot:
     def __init__(self, row, col, width, total_rows):
@@ -297,7 +292,7 @@ def main(win, width):
 
     image_grid = process_image_to_grid('C:/Users/Lorelei/Downloads/map1.png"', ROWS)
 
-# Run the main function
+
 
 main(WIN, WIDTH)
 

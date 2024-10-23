@@ -5,8 +5,7 @@ No classes
 
 
 
-TEUSDAY:
-
+TUESDAY:
 07:00 AM - 10:00 AM 
 CpE 427 - Connecting Networks 
 and Security (Cisco 4)
@@ -30,8 +29,7 @@ Lit 102 - ASEAN Literature
 
 
 
-WEDNESDAY
-
+WEDNESDAY:
 07:00 AM - 09:00 AM
 CpE 428 - Embedded Systems 
 -Contreras, Laila A. 
@@ -51,8 +49,7 @@ and Quality Control
 
 
 
-THURSDAY
-
+THURSDAY:
 07:00 AM - 10:00 AM
 CpE 405 - Computer Engineering 
 Drafting and Design
@@ -76,8 +73,7 @@ and Security (Cisco 4)
 
 
 
-FRIDAY
-
+FRIDAY:
 07:00 AM - 08:00 AM
 CpE 420 - Seminars and 
 Field Trips 
@@ -97,13 +93,12 @@ and Quality Control
 
 
 
-SATURDAY
-
+SATURDAY:
 07:00 AM - 12:00 PM
 CpE 420 - Seminars and 
 Field Trips 
 -Contreras, Laila A. 
-    (AMPHI)
+    (4th Flr CEAFA)
 
 
 
